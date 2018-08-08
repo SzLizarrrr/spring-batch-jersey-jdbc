@@ -3,8 +3,10 @@ package hello;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.Job;
@@ -22,16 +24,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Component
-@Path("/greeting")
+@Path("/")
 public class GreetingController {
-	
+
 	@Autowired
 	JobLauncher jobLauncher;
 	
 	@Autowired
 	Job job;
+
+	private final Service service;
+	
+	
+	public GreetingController(Service service) {
+		this.service = service;
+	}
 	
 	@GET
+	@Path("/greeting")
 	public String greeting() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
 		Map<String, JobParameter> maps = new HashMap<>();
         maps.put("time", new JobParameter(System.currentTimeMillis()));
@@ -39,5 +49,18 @@ public class GreetingController {
 
 		return jobExecution.getStatus().toString();
 	}
+	
+	@GET
+	@Path("/hello")
+	public String message() {
+		return "Hello " + this.service.message();
+	}
+	
+	@GET
+	@Path("/reverse")
+	public String reverse(@QueryParam("input") @NotNull String input) {
+		return new StringBuilder(input).reverse().toString();
+	}
+
 
 }
