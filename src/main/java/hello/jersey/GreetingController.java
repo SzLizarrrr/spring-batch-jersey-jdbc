@@ -1,4 +1,4 @@
-package hello;
+package hello.jersey;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.springframework.batch.core.Job;
@@ -18,9 +19,11 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
-import hello.jersey.Service;
+import hello.mybatis.User;
+import hello.mybatis.UserMapper;
 
 @Component
 @Path("/")
@@ -31,6 +34,9 @@ public class GreetingController {
 	
 	@Autowired
 	Job job;
+	
+	@Autowired
+	UserMapper userMapper;
 
 	private final Service service;
 	
@@ -59,6 +65,19 @@ public class GreetingController {
 	@Path("/reverse")
 	public String reverse(@QueryParam("input") @NotNull String input) {
 		return new StringBuilder(input).reverse().toString();
+	}
+	
+	@GET
+	@Path("/user")
+	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public User findUser(@QueryParam("name") @NotNull String name) {
+		return userMapper.findbyName(name);
+	}
+	
+	@GET
+	@Path("/add")
+	public int addUser(@QueryParam("name") @NotNull String name, @QueryParam("age") @NotNull int age) {
+		return userMapper.insert(name, age);
 	}
 
 
