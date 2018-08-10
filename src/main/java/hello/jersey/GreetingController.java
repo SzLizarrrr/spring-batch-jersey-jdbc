@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -74,10 +76,11 @@ public class GreetingController {
 		return userMapper.findbyName(name);
 	}
 	
-	@GET
+	@POST
 	@Path("/add")
-	public int addUser(@QueryParam("name") @NotNull String name, @QueryParam("age") @NotNull int age) {
-		return userMapper.insert(name, age);
+	@Consumes(MediaType.APPLICATION_JSON_UTF8_VALUE) //don't know why, delete this line still work
+	public int addUser(User user) {
+		return userMapper.insert(user.getName(), user.getAge());
 	}
 
 
