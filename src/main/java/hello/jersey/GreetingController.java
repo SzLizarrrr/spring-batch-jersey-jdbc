@@ -46,10 +46,10 @@ public class GreetingController {
 	@Autowired
 	UserDao userDao;
 
-	private final Service service;
+	private final HelloWorldService service;
 	
 	
-	public GreetingController(Service service) {
+	public GreetingController(HelloWorldService service) {
 		this.service = service;
 	}
 	
