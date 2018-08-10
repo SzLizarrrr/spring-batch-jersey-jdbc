@@ -1,4 +1,4 @@
-package hello.config;
+package hello.batch;
 
 import javax.sql.DataSource;
 
@@ -18,10 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-
-import hello.batch.JobCompletionNotificationListener;
-import hello.batch.Person;
-import hello.batch.PersonItemProcessor;
 
 @Configuration
 @EnableBatchProcessing
@@ -56,7 +52,7 @@ public class BatchConfiguration {
     public JdbcBatchItemWriter<Person> writer(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Person>()
             .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-            .sql("INSERT INTO people (first_name, last_name) VALUES (:firstName, :lastName)")
+            .sql("INSERT INTO PEOPLE (first_name, last_name) VALUES (:firstName, :lastName)")
             .dataSource(dataSource)
             .build();
     }
