@@ -1,4 +1,4 @@
-package hello;
+package hello.batch;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

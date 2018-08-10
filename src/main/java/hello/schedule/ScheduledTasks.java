@@ -1,4 +1,4 @@
-package hello;
+package hello.schedule;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
