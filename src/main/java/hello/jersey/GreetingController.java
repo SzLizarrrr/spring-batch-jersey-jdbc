@@ -25,10 +25,13 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import hello.mybatis.User;
+import hello.mybatis.UserDao;
 import hello.mybatis.UserMapper;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Path("/")
+@Slf4j
 public class GreetingController {
 
 	@Autowired
@@ -39,6 +42,9 @@ public class GreetingController {
 	
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	UserDao userDao;
 
 	private final Service service;
 	
@@ -73,15 +79,15 @@ public class GreetingController {
 	@Path("/user")
 	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public User findUser(@QueryParam("name") @NotNull String name) {
-		return userMapper.findbyName(name);
+		log.info("find user by dao inject way: {}", userDao.selectUserByName(name));
+		return userMapper.findByName(name);
 	}
 	
 	@POST
-	@Path("/add")
+	@Path("/user")
 	@Consumes(MediaType.APPLICATION_JSON_UTF8_VALUE) //don't know why, delete this line still work
 	public int addUser(User user) {
 		return userMapper.insert(user.getName(), user.getAge());
 	}
-
 
 }
