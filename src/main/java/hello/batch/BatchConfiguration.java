@@ -24,10 +24,13 @@ import org.springframework.core.io.ClassPathResource;
 public class BatchConfiguration {
 
     @Autowired
-    public JobBuilderFactory jobBuilderFactory;
+    JobBuilderFactory jobBuilderFactory;
 
     @Autowired
-    public StepBuilderFactory stepBuilderFactory;
+    StepBuilderFactory stepBuilderFactory;
+    
+    @Autowired
+    BatchDecider batchDecider;
 
     // tag::readerwriterprocessor[]
     @Bean
@@ -60,11 +63,13 @@ public class BatchConfiguration {
 
     // tag::jobstep[]
     @Bean
-    public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
+    public Job importUserJob(JobCompletionNotificationListener listener, Step step1, Step step2) { // don't know how job know step1 is step1(), step2 is step2(). could be inject by name.
+//    	BatchDecider batchDecider = new BatchDecider();
         return jobBuilderFactory.get("importUserJob")
             .incrementer(new RunIdIncrementer())
             .listener(listener)
             .flow(step1)
+            .next(batchDecider).on("COMPLETED").to(step2)
             .end()
             .build();
     }
@@ -78,5 +83,16 @@ public class BatchConfiguration {
             .writer(writer)
             .build();
     }
+    
+    @Bean
+    public Step step2(JdbcBatchItemWriter<Person> writer) {
+    	return stepBuilderFactory.get("step2")
+    			.<Person, Person> chunk(10)
+                .reader(reader())
+                .processor(processor())
+                .writer(writer)
+                .build();
+    }
     // end::jobstep[]
+    
 }
