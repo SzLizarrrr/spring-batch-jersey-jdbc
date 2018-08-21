@@ -30,7 +30,7 @@ import hello.mybatis.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Path("/")
+@Path("/greet")
 @Slf4j
 public class GreetingController {
 
