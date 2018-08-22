@@ -1,6 +1,8 @@
 package hello.jdbctemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,6 +34,8 @@ public class PetDao {
 		pet.setId(id);
 		SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(pet);
 //		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+//		Map namedParameters = new HashMap(); // normal map need return (Pet) named...
+//		namedParameters.put("id", id);
 		return namedParameterJdbcTemplate.queryForObject("SELECT * FROM PET WHERE ID = :id", namedParameters, (rs, rowNum) -> new Pet(rs.getInt("id"), rs.getString("type")));
 	}
 	
