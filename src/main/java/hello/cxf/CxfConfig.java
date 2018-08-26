@@ -37,11 +37,3 @@ public class CxfConfig {
 	}
 
 }
-
-//Soap client code
-//JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-//Client client = dcf.createClient("http://localhost:8080/soap/user?wsdl");
-//Object[] objects = client.invoke("getUser", 10002L);
-//
-//System.out.println(objects[0].getClass());
-//System.out.println(objects[0].toString());

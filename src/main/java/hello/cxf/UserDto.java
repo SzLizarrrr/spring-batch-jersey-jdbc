@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class UserDto implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
