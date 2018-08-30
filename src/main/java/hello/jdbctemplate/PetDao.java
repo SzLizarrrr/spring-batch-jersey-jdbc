@@ -1,8 +1,10 @@
 package hello.jdbctemplate;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +28,15 @@ public class PetDao {
 	
 	public List<Pet> getAllPet() {
 		return jdbcTemplate.query("SELECT * FROM PET", (rs, rowNum) -> new Pet(rs.getInt("id"), rs.getString("type")));
+	}
+	
+	public List<Pet> getRangePet() {
+		Set<Integer> ids = new HashSet<Integer>();
+		ids.add(1);
+		ids.add(2);
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("ids", ids);
+		return namedParameterJdbcTemplate.query("SELECT * FROM PET WHERE ID IN(:ids)", parameters, (rs, rowNum) -> new Pet(rs.getInt("id"), rs.getString("type")));
 	}
 	
 	public Pet getPetById(int id) {

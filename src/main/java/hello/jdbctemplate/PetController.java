@@ -36,6 +36,13 @@ public class PetController {
 		return petDao.getPetById(id);
 	}
 	
+	@GET
+	@Path("/range")
+	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<Pet> getRangePet() {
+		return petDao.getRangePet();
+	}
+	
 	@POST
 	public int addPet(Pet pet) {
 		return petDao.addPet(pet);
