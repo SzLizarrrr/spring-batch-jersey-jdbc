@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -36,7 +37,7 @@ public class PetDao {
 		ids.add(2);
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("ids", ids);
-		return namedParameterJdbcTemplate.query("SELECT * FROM PET WHERE ID IN(:ids)", parameters, (rs, rowNum) -> new Pet(rs.getInt("id"), rs.getString("type")));
+		return namedParameterJdbcTemplate.query("SELECT * FROM PET WHERE ID IN(:ids)", parameters, new BeanPropertyRowMapper(Pet.class));
 	}
 	
 	public Pet getPetById(int id) {
