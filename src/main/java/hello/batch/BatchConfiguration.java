@@ -86,7 +86,7 @@ public class BatchConfiguration {
     	delLineAgg.setFieldExtractor(fieldExtractor);
     	return new FlatFileItemWriterBuilder<Person>()
     			.name("personFlatItemWriter")
-    			.resource(new FileSystemResource("/tmp/sample-data.dat"))
+    			.resource(new FileSystemResource("/tmp/sample-data.dat"))// classpathResource not working for flatFileWriter
     			.lineAggregator(delLineAgg).build();
 
     }
