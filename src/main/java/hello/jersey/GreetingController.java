@@ -56,9 +56,10 @@ public class GreetingController {
 	@GET
 	@Path("/greeting")
 	public String greeting() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
-		Map<String, JobParameter> maps = new HashMap<>();
-        maps.put("time", new JobParameter(System.currentTimeMillis()));
-        JobExecution jobExecution = jobLauncher.run(job, new JobParameters(maps));
+//		Map<String, JobParameter> maps = new HashMap<>();
+//        maps.put("time", new JobParameter(System.currentTimeMillis()));
+//        JobExecution jobExecution = jobLauncher.run(job, new JobParameters(maps));
+        JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
 
 		return jobExecution.getStatus().toString();
 	}
