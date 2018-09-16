@@ -117,7 +117,7 @@ public class BatchConfiguration {
         return stepBuilderFactory.get("step1")
             .<Person, Person> chunk(10)
             .reader(flatReader())
-            .processor(processor())
+//            .processor(processor()) // processor is kind like a filter. something not necessory
             .writer(writer)
             .build();
     }
